@@ -1,0 +1,25 @@
+{
+  "name": "InsightLog",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "forwardPorts": [5173],
+  "remoteEnv": {
+    "PLAYWRIGHT_BROWSERS_PATH": "${containerWorkspaceFolder}/.playwright-browsers",
+    "GH_CONFIG_DIR": "${containerWorkspaceFolder}/.gh-config",
+    "NPM_CONFIG_CACHE": "${containerWorkspaceFolder}/.npm-cache"
+  },
+  "postCreateCommand": "npm install && npx -y -p @playwright/mcp@latest playwright install chromium",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  }
+}

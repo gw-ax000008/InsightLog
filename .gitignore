@@ -1,0 +1,63 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+dev-dist
+*.local
+
+# Editor directories and files
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 環境変数
+.env
+.env.local
+.env.*.local
+
+# デモ実行ログ（自動生成）
+demo/logs/*.log
+demo/screenshots/*.png
+demo/screenshots/*.jpg
+
+# Playwright テスト結果
+demo/screenshots/test-results/
+demo/screenshots/playwright-report/
+playwright-report/
+test-results/
+
+# GitHub Issue番号（ローカル状態）
+demo/github_issue_number.txt
+
+# デモ実行時状態（自動生成）
+demo/feature_list.json
+demo/plan_output.md
+
+# Claude Code ワークツリー（自動生成）
+.claude/worktrees/
+
+# プロビジョニング（講師専用、受講生には不要）
+.devcontainer/provisioning/
+dist_zips/
+base_template/
+
+# Dev Container キャッシュ（/workspaces に書き出されるもの）
+.playwright-browsers/
+.playwright-mcp/
+.gh-config/
+.npm-cache/
+
+.claude/settings.local.json
