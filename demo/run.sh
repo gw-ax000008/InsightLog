@@ -99,6 +99,49 @@ echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
+<<<<<<< HEAD
+=======
+# ── feature_list.json を pipeline.json + Issue データから生成 ────────────
+if [[ -n "${ISSUE_NUMBER}" ]]; then
+  ISSUE_TITLE=$(gh issue view "${ISSUE_NUMBER}" --json title -q .title 2>/dev/null \
+    || head -1 "${FALLBACK_ISSUE}" | sed 's/^# //')
+  BRANCH_NAME="feat/issue-${ISSUE_NUMBER}"
+  # Python リテラル（json.dumps(None) → null として出力される）
+  GITHUB_ISSUE_PY="${ISSUE_NUMBER}"
+else
+  ISSUE_TITLE=$(head -1 "${FALLBACK_ISSUE}" | sed 's/^# //')
+  BRANCH_NAME="feat/local-$(date +%Y%m%d%H%M%S)"
+  GITHUB_ISSUE_PY="None"
+fi
+
+NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+python3 - << PYEOF > "${DEMO_DIR}/feature_list.json"
+import json
+
+with open("${DEMO_DIR}/pipeline.json") as f:
+    phases = json.load(f)
+
+for p in phases:
+    p["status"] = "pending"
+
+print(json.dumps({
+    "feature": "${ISSUE_TITLE}",
+    "issue": "demo/fallback/issue.md",
+    "github_issue": ${GITHUB_ISSUE_PY},
+    "branch": "${BRANCH_NAME}",
+    "started_at": "${NOW}",
+    "completed_at": None,
+    "phases": phases
+}, ensure_ascii=False, indent=2))
+PYEOF
+
+echo "📋 pipeline.json から feature_list.json を生成しました"
+echo "   feature: ${ISSUE_TITLE}"
+echo "   branch:  ${BRANCH_NAME}"
+echo ""
+
+>>>>>>> template/main
 # ── Claude Code をワークツリーモードで起動 ────────────────────────────────
 WORKTREE_NAME="demo-run"
 WORKTREE_PATH="${REPO_DIR}/.claude/worktrees/${WORKTREE_NAME}"
@@ -119,6 +162,16 @@ echo ""
 echo "Claude Code を起動中（stream-json モード）..."
 echo ""
 
+<<<<<<< HEAD
+=======
+# ── ワークツリー作成をポーリングして feature_list.json を注入 ──
+(
+  until [[ -d "${WORKTREE_PATH}/demo" ]]; do sleep 0.5; done
+  cp "${DEMO_DIR}/feature_list.json" "${WORKTREE_PATH}/demo/feature_list.json"
+) &
+COPY_PID=$!
+
+>>>>>>> template/main
 # ── claude-progress.txt をリアルタイム追跡 ──
 (
   until [[ -f "${WORKTREE_PATH}/claude-progress.txt" ]]; do sleep 1; done
@@ -140,6 +193,10 @@ claude --worktree "${WORKTREE_NAME}" --dangerously-skip-permissions \
   | python3 "${STREAM_PARSER}" --raw-log "${RAW_JSON_LOG}"
 EXIT_CODE=${PIPESTATUS[0]}
 
+<<<<<<< HEAD
+=======
+kill "${COPY_PID}" 2>/dev/null || true
+>>>>>>> template/main
 kill "${PROGRESS_TAIL_PID}" 2>/dev/null || true
 
 echo ""

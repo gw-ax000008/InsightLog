@@ -23,6 +23,10 @@ import type {
   AIToolStats,
 } from '@/types/statistics';
 import { AI_NOT_USED } from '@/constants/aiTools';
+<<<<<<< HEAD
+=======
+import { isAiUsed } from '@/lib/task-helpers';
+>>>>>>> template/main
 
 /**
  * 統計データを計算するカスタムフック
@@ -82,8 +86,13 @@ export function useStatistics(dateRange: DateRange = 'today', excludeSample: boo
     };
 
     // AI比較統計
+<<<<<<< HEAD
     const aiTasks = filteredTasks.filter((t) => t.aiUsed);
     const nonAiTasks = filteredTasks.filter((t) => !t.aiUsed);
+=======
+    const aiTasks = filteredTasks.filter((t) => isAiUsed(t));
+    const nonAiTasks = filteredTasks.filter((t) => !isAiUsed(t));
+>>>>>>> template/main
 
     const average = (arr: number[]) => {
       if (arr.length === 0) return 0;
@@ -114,7 +123,11 @@ export function useStatistics(dateRange: DateRange = 'today', excludeSample: boo
         categoryMap.set(cat, {
           count: current.count + 1,
           duration: current.duration + task.duration,
+<<<<<<< HEAD
           aiCount: current.aiCount + (task.aiUsed ? 1 : 0),
+=======
+          aiCount: current.aiCount + (isAiUsed(task) ? 1 : 0),
+>>>>>>> template/main
         });
       });
     });
@@ -148,7 +161,11 @@ export function useStatistics(dateRange: DateRange = 'today', excludeSample: boo
 
       days.forEach((day) => {
         const dayTasks = filteredTasks.filter((t) => t.completedAt && isSameDay(t.completedAt, day));
+<<<<<<< HEAD
         const aiDayTasks = dayTasks.filter((t) => t.aiUsed);
+=======
+        const aiDayTasks = dayTasks.filter((t) => isAiUsed(t));
+>>>>>>> template/main
 
         daily.push({
           date: format(day, 'yyyy-MM-dd'),

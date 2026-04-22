@@ -61,3 +61,9 @@ base_template/
 .npm-cache/
 
 .claude/settings.local.json
+<<<<<<< HEAD
+=======
+
+# /observe 実行時刻記録（受講者環境ごとの状態。.gitkeep だけ残してファイル本体は除外）
+.claude/tmp/last-observe-time
+>>>>>>> template/main

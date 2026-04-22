@@ -17,8 +17,13 @@
       "Bash(git checkout:*)",
       "Bash(git merge:*)",
       "Bash(git worktree:*)",
+<<<<<<< HEAD
       "Bash(claude /heartbeat)",
       "Bash(claude /kaizen)"
+=======
+      "Bash(claude /observe)",
+      "Bash(claude /evolve)"
+>>>>>>> template/main
     ]
   },
   "hooks": {

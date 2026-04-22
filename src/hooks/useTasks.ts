@@ -1,5 +1,9 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '@/lib/db';
+<<<<<<< HEAD
+=======
+import { isAiUsed } from '@/lib/task-helpers';
+>>>>>>> template/main
 import type { Task } from '@/types/task';
 
 /**
@@ -62,7 +66,11 @@ export function useTasks() {
    * AI使用/不使用でフィルタ
    */
   const getTasksByAiUsage = async (aiUsed: boolean): Promise<Task[]> => {
+<<<<<<< HEAD
     return await db.tasks.filter((task) => task.aiUsed === aiUsed).toArray();
+=======
+    return await db.tasks.filter((task) => isAiUsed(task) === aiUsed).toArray();
+>>>>>>> template/main
   };
 
   /**

@@ -12,6 +12,17 @@ model: sonnet
 作業ブランチから `main` への PR を作成する。
 スクリーンショット・ビデオ証跡を本文に含め、レビュワーが変更を一目で把握できるようにする。
 
+<<<<<<< HEAD
+=======
+## 呼び出し元から受け取るパラメータ
+
+呼び出し元（supervisor やコマンド）はプロンプトで以下を渡す:
+
+- `screenshots_dir`: PR に添付するスクリーンショットのディレクトリ（例: `demo/screenshots`）
+- `videos_dir`: PR に添付する E2E ビデオのディレクトリ（例: `demo/screenshots/test-results`）
+- `ISSUE_NUMBER`（環境変数）: クローズ対象 GitHub Issue 番号。なければ Closes リンクは付与しない
+
+>>>>>>> template/main
 ---
 
 ## PR 作成手順
@@ -25,9 +36,15 @@ git log main..<ブランチ名> --oneline
 # 変更ファイル一覧
 git diff main..<ブランチ名> --name-only
 
+<<<<<<< HEAD
 # スクリーンショット・ビデオ
 ls demo/screenshots/*.png 2>/dev/null
 ls demo/screenshots/test-results/*.webm 2>/dev/null | head -3
+=======
+# スクリーンショット・ビデオ（呼び出し元から渡されたディレクトリを使用）
+ls {screenshots_dir}/*.png 2>/dev/null
+ls {videos_dir}/*.webm 2>/dev/null | head -3
+>>>>>>> template/main
 
 # Issue番号
 echo "${ISSUE_NUMBER:-なし}"
@@ -39,8 +56,13 @@ echo "${ISSUE_NUMBER:-なし}"
 
 ```bash
 # スクリーンショット・ビデオをステージング
+<<<<<<< HEAD
 git add demo/screenshots/*.png 2>/dev/null || true
 git add demo/screenshots/test-results/*.webm 2>/dev/null || true
+=======
+git add {screenshots_dir}/*.png 2>/dev/null || true
+git add {videos_dir}/*.webm 2>/dev/null || true
+>>>>>>> template/main
 
 # 証跡がある場合のみコミット
 git diff --cached --quiet || git commit -m "docs: E2Eテストのスクリーンショット・ビデオ証跡を追加"
@@ -59,7 +81,11 @@ REPO_URL=$(gh repo view --json url -q .url)
 BRANCH=$(git branch --show-current)
 
 # スクリーンショット URL の生成
+<<<<<<< HEAD
 # 形式: ${REPO_URL}/blob/${BRANCH}/demo/screenshots/ファイル名.png?raw=true
+=======
+# 形式: ${REPO_URL}/blob/${BRANCH}/{screenshots_dir}/ファイル名.png?raw=true
+>>>>>>> template/main
 ```
 
 ### 4. PR 本文の構成
@@ -79,13 +105,22 @@ BRANCH=$(git branch --show-current)
 
 | 受け入れ条件 | スクリーンショット |
 |---|---|
+<<<<<<< HEAD
 | [条件1の説明] | ![条件1](${REPO_URL}/blob/${BRANCH}/demo/screenshots/01_xxx.png?raw=true) |
 | [条件2の説明] | ![条件2](${REPO_URL}/blob/${BRANCH}/demo/screenshots/02_xxx.png?raw=true) |
+=======
+| [条件1の説明] | ![条件1](${REPO_URL}/blob/${BRANCH}/{screenshots_dir}/01_xxx.png?raw=true) |
+| [条件2の説明] | ![条件2](${REPO_URL}/blob/${BRANCH}/{screenshots_dir}/02_xxx.png?raw=true) |
+>>>>>>> template/main
 | ... | ... |
 
 ## E2E テスト録画
 [各 .webm の GitHub blob URL をリンクとして記載]
+<<<<<<< HEAD
 - [テスト名](${REPO_URL}/blob/${BRANCH}/demo/screenshots/test-results/ファイル名.webm)
+=======
+- [テスト名](${REPO_URL}/blob/${BRANCH}/{videos_dir}/ファイル名.webm)
+>>>>>>> template/main
 
 ## テスト結果
 - Vitest: [結果]
@@ -120,6 +155,16 @@ EOF
 
 ## 完了時の処理
 
+<<<<<<< HEAD
 `demo/feature_list.json` の `"id": "pr"` フェーズの `status` を `"done"` に更新する。
 `claude-progress.txt` に「PR作成完了: [URL]」を追記する。
 PR の URL を返す。
+=======
+PR の URL を呼び出し元に返す。
+
+### デモパイプライン連携（任意動作）
+
+`demo/feature_list.json` が **存在する場合のみ**、`"id": "pr"` フェーズの `status` を `"done"` に更新する。
+`claude-progress.txt` が **存在する場合のみ**、「PR作成完了: [URL]」を追記する。
+これらのファイルはデモパイプライン特有のものであり、無くてもエラーにせずスキップする。
+>>>>>>> template/main
